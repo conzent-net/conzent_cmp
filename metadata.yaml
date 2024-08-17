@@ -1,5 +1,5 @@
 homepage: "https://conzent.net"
 documentation: "https://conzent.net/installation-guide/"
 versions:
-  - sha: b52db1fa68b481da2e4d79af23579a7fd32c3805
+  - sha: d2db4b55e395732f4b0570c57e68355924216487
     changeNotes: Initial release.
