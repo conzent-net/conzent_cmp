@@ -1,6 +1,8 @@
 homepage: "https://conzent.net"
 documentation: "https://conzent.net/installation-guide/"
 versions:
+  - sha: 3d0e81958ae9236677a39420363a9497153310ee
+    changeNotes: hide developer id
   - sha: bdd787915436923cdf993aacdee31675707d5de3
     changeNotes: Added developer id
   - sha: d2db4b55e395732f4b0570c57e68355924216487
