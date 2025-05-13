@@ -1,8 +1,6 @@
 homepage: "https://conzent.net"
 documentation: "https://conzent.net/installation-guide/"
 versions:
-  - sha: d17096e2cecf1d9d00c61e7bb4ec9d148b0aeae5
-    changeNotes: brand id changed
   - sha: 2fb308e10482a481dadaa5bade86770417691b79
     changeNotes: add developer id and change default status 
   - sha: 3d0e81958ae9236677a39420363a9497153310ee
