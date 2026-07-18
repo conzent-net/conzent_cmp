@@ -1,6 +1,8 @@
 homepage: "https://conzent.net"
 documentation: "https://conzent.net/installation-guide/"
 versions:
+  - sha: 5264ce30c95e9efe9e3aa44fe61fbd46c5c503e1
+    changeNotes: GetConzent platform support, new logo, updated description
   - sha: b81a6a61bddd09b0f22653cc41faf9bfaf5df8ac
     changeNotes: Developer id added & status default changed
   - sha: 3d0e81958ae9236677a39420363a9497153310ee
