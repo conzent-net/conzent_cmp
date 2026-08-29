@@ -15,7 +15,7 @@ Full setup guide: [getconzent.com/docs](https://getconzent.com/docs/)
 ## Platforms
 
 - **GetConzent** (app.getconzent.com) — the default, for all new accounts.
-- **Conzent Classic** (conzent.net) — select this only if your account was created on conzent.net.
+- **Conzent Classic** (conzent.net) — select this only if your account is currently on conzent.net.
 
 ## Verify your setup
 
