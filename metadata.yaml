@@ -1,6 +1,8 @@
 homepage: "https://getconzent.com"
 documentation: "https://getconzent.com/docs/"
 versions:
+  - sha: 23a3fb38edee6329be457cd5e0afcecda4eeee55
+    changeNotes: Clarify platform guidance - select Classic if your account is currently on conzent.net.
   - sha: 39e92253f1343e531b87fd0ad59ca54cefd58907
     changeNotes: Default to GetConzent platform, Conzent ApS brand name, getconzent.com links and docs.
   - sha: 5264ce30c95e9efe9e3aa44fe61fbd46c5c503e1
