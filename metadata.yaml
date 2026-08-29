@@ -1,6 +1,8 @@
 homepage: "https://getconzent.com"
 documentation: "https://getconzent.com/docs/"
 versions:
+  - sha: 39e92253f1343e531b87fd0ad59ca54cefd58907
+    changeNotes: Default to GetConzent platform, Conzent ApS brand name, getconzent.com links and docs.
   - sha: 5264ce30c95e9efe9e3aa44fe61fbd46c5c503e1
     changeNotes: GetConzent platform support, new logo, updated description
   - sha: b81a6a61bddd09b0f22653cc41faf9bfaf5df8ac
