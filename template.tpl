@@ -273,13 +273,15 @@ const encodeUri = require("encodeUri");
 const gtagSet = require("gtagSet");
 const getCookieValues = require("getCookieValues");
 const updateConsentState = require("updateConsentState");
-const urlPassthrough = data.urlPassthrough;
+const urlPassthrough = data.urlPassThrough;
 
-const adsDataRedaction = data.adsDataRedaction || 'dynamic';
+const adsRedaction = !!data.adsRedaction;
 const regionSettings = data.regionSettings || [];
 const waitForTime = data.waitForTime;
 
-let setDefaultSetting = false;
+// True until a region row covers "All". The denied block below is only a
+// fallback for customers who supplied no catch-all row; it must not overwrite one.
+let setDefaultSetting = true;
 
 // Set url_passthrough and developer ID
 gtagSet({
@@ -297,7 +299,7 @@ function setConsentInitStates(consentData) {
 }
 
 gtagSet({
-  ads_data_redaction: !!data.adsRedaction,
+  ads_data_redaction: adsRedaction,
 });
 
 for (let index = 0; index < regionSettings.length; index++) {
@@ -317,7 +319,7 @@ for (let index = 0; index < regionSettings.length; index++) {
     .filter((region) => region);
   if (regionsToSetFor.length > 0 && regionsToSetFor[0].toLowerCase() !== "all")
     consentRegionData.region = regionsToSetFor;
-  else setDefaultSetting = true;
+  else setDefaultSetting = false;
   setConsentInitStates(consentRegionData);
 }
 
@@ -364,12 +366,8 @@ if (consentString && typeof consentString === "string") {
   });
   
   // Set data redaction
-    const marketingConsent = cookieObj ? cookieObj.marketing : 'denied';
-    const marketingConsentBoolean = marketingConsent === 'granted';
-    const adsDataRedactionValue = adsDataRedaction === 'dynamic' ? !marketingConsentBoolean : adsDataRedaction === 'true';
-    
     gtagSet({
-      'ads_data_redaction': adsDataRedactionValue
+      'ads_data_redaction': adsRedaction && cookieObj.advertisement !== 'granted'
     });
 }
 
