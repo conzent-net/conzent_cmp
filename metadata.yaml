@@ -1,6 +1,8 @@
 homepage: "https://getconzent.com"
 documentation: "https://getconzent.com/docs/"
 versions:
+  - sha: a507345d3c2555fbd9218cb488f37ae31800e345
+    changeNotes: Fix url_passthrough parameter name, honour the ads data redaction checkbox, and stop the denied fallback overwriting a configured All row.
   - sha: 23a3fb38edee6329be457cd5e0afcecda4eeee55
     changeNotes: Clarify platform guidance - select Classic if your account is currently on conzent.net.
   - sha: 39e92253f1343e531b87fd0ad59ca54cefd58907
