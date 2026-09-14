@@ -1,6 +1,8 @@
 homepage: "https://getconzent.com"
 documentation: "https://getconzent.com/docs/"
 versions:
+  - sha: 3191c5acef8829b99e4c9f2ae68c78e1b2e68511
+    changeNotes: Read the GetConzent consent cookie so consent updates from it, and do not load the banner script inside Shopify pixels (adds a permission to read the page path).
   - sha: a507345d3c2555fbd9218cb488f37ae31800e345
     changeNotes: Fix url_passthrough parameter name, honour the ads data redaction checkbox, and stop the denied fallback overwriting a configured All row.
   - sha: 23a3fb38edee6329be457cd5e0afcecda4eeee55
