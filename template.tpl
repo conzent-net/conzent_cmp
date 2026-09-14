@@ -273,6 +273,9 @@ const encodeUri = require("encodeUri");
 const gtagSet = require("gtagSet");
 const getCookieValues = require("getCookieValues");
 const updateConsentState = require("updateConsentState");
+const JSON = require("JSON");
+const getType = require("getType");
+const getUrl = require("getUrl");
 const urlPassthrough = data.urlPassThrough;
 
 const adsRedaction = !!data.adsRedaction;
@@ -289,8 +292,16 @@ gtagSet({
   'developer_id.dOTMxNW': true
 });
 
-function getConsentStateForCategory(categoryConsent) {
-  return categoryConsent === "yes" ? "granted" : "denied";
+// The categories a visitor accepted, from Conzent's preferences cookie.
+// GetConzent writes a JSON array (["necessary","analytics"]), URL-encoded;
+// Conzent Classic writes a comma list. Reading the JSON value as a comma list
+// found no category at all, so consent was never updated from the cookie.
+function acceptedCategories(value) {
+  if (value.charAt(0) === "[") {
+    const parsed = JSON.parse(value);
+    return getType(parsed) === "array" ? parsed : [];
+  }
+  return value.split(",").map((item) => item.trim());
 }
 
 function setConsentInitStates(consentData) {
@@ -335,40 +346,39 @@ if (setDefaultSetting) {
   });
 }
 
-const consentString = getCookieValues("conzentConsentPrefs", false)[0];
-if (consentString && typeof consentString === "string") {
-  const cookieObj ={
-    "functional":"denied",
-    "advertisement":"denied",
-    "analytics":"denied",
-    "necessary":"granted"
-  };
-  consentString.split(",").reduce(function (acc, curr) {
-    const cookieValue = curr.trim();
-    if(cookieValue == 'marketing'){
-      cookieObj.advertisement = getConsentStateForCategory('yes');
-    }
-    else{
-      cookieObj[cookieValue] = getConsentStateForCategory('yes');
-    }
-    
-    //return acc;
-  }, {});
+const consentCookie = getCookieValues("conzentConsentPrefs", true)[0];
+if (consentCookie && typeof consentCookie === "string") {
+  const consentValue = consentCookie.trim();
+  const isGetConzent = consentValue.charAt(0) === "[";
+  const accepted = acceptedCategories(consentValue);
+  const state = (category) => accepted.indexOf(category) !== -1 ? "granted" : "denied";
+  const advertisement =
+    state("marketing") === "granted" || state("advertisement") === "granted" ? "granted" : "denied";
 
   updateConsentState({
-    ad_storage: cookieObj.advertisement,
-    analytics_storage: cookieObj.analytics,
-    functionality_storage: cookieObj.functional,
-    personalization_storage: cookieObj.functional,
-    security_storage: cookieObj.necessary,
-    ad_user_data: cookieObj.advertisement,
-    ad_personalization: cookieObj.advertisement,
+    ad_storage: advertisement,
+    analytics_storage: state("analytics"),
+    functionality_storage: state("functional"),
+    // GetConzent has its own preferences category and maps it here, as its
+    // banner script does. Classic has none, so functional covers both.
+    personalization_storage: isGetConzent ? state("preferences") : state("functional"),
+    security_storage: "granted",
+    ad_user_data: advertisement,
+    ad_personalization: advertisement,
   });
-  
+
   // Set data redaction
-    gtagSet({
-      'ads_data_redaction': adsRedaction && cookieObj.advertisement !== 'granted'
-    });
+  gtagSet({
+    'ads_data_redaction': adsRedaction && advertisement !== 'granted'
+  });
+}
+
+// A Shopify pixel runs this container in a sandbox with no page to show a
+// banner on; the store's theme already loads the banner. The consent defaults
+// and the update above still apply to the tags in this container.
+const pagePath = getUrl("path");
+if (typeof pagePath === "string" && pagePath.indexOf("/web-pixels") === 0) {
+  return data.gtmOnSuccess();
 }
 
 const scriptBase =
@@ -408,6 +418,41 @@ ___WEB_PERMISSIONS___
                 "string": "developer_id.dOTMxNW"
               }
             ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "get_url",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "urlParts",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "path",
+          "value": {
+            "type": 8,
+            "boolean": true
+          }
+        },
+        {
+          "key": "queriesAllowed",
+          "value": {
+            "type": 1,
+            "string": "any"
           }
         }
       ]
