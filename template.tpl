@@ -10,7 +10,7 @@ ___INFO___
 
 {
   "displayName": "Conzent CMP",
-  "description": "Cookie consent from Conzent (getconzent.com) - Google Consent Mode v2 and IAB TCF v2 (CMP ID 446). Loads your Conzent consent banner and signals your visitors' consent state to Google tags. Defaults to the GetConzent platform (app.getconzent.com); accounts currently on conzent.net select Conzent Classic. Tip: verify your setup with our Consent Mode Inspector extension (https://chromewebstore.google.com/detail/ieenpcnlkobelkdkjgfmhbkbleomebop) - unlike single-purpose inspectors it shows Google Consent Mode, Microsoft Clarity, UET, Amazon and IAB TCF signals in one easy view, perfect for testing your site across all technologies.",
+  "description": "Cookie consent from Conzent (getconzent.com) - Google Consent Mode v2 and IAB TCF v2 (CMP ID 446). Loads your Conzent consent banner and signals your visitors' consent state to Google tags. Select your platform in the tag: GetConzent (app.getconzent.com) for new accounts, Conzent Classic for accounts on conzent.net. Tip: verify your setup with our Consent Mode Inspector extension (https://chromewebstore.google.com/detail/ieenpcnlkobelkdkjgfmhbkbleomebop) - unlike single-purpose inspectors it shows Google Consent Mode, Microsoft Clarity, UET, Amazon and IAB TCF signals in one easy view, perfect for testing your site across all technologies.",
   "categories": [
     "TAG_MANAGEMENT",
     "PERSONALIZATION"
@@ -48,8 +48,13 @@ ___TEMPLATE_PARAMETERS___
       }
     ],
     "simpleValueType": true,
-    "defaultValue": "getconzent",
-    "help": "Choose the Conzent platform your account is on. New accounts are on GetConzent (app.getconzent.com) - the default. IMPORTANT: if your account is currently on conzent.net, select Conzent Classic here or your banner will not load."
+    "notSetText": "This is a required field",
+    "help": "Choose the Conzent platform your account is on and save the tag. New accounts are on GetConzent (app.getconzent.com); accounts on conzent.net are Conzent Classic. There is no default on purpose: a tag saved before this field existed keeps loading from conzent.net until a platform is chosen here and the tag is saved, whatever the field appears to show.",
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY"
+      }
+    ]
   },
   {
     "type": "TEXT",
