@@ -1,6 +1,8 @@
 homepage: "https://getconzent.com"
 documentation: "https://getconzent.com/docs/"
 versions:
+  - sha: 41cfa2ecd6c4642e485383996bcf3e8ee70c851b
+    changeNotes: The Platform field is now required with no default. A tag saved before the field existed showed GetConzent but stored nothing and loaded from conzent.net; open the tag, choose your platform and save.
   - sha: 3191c5acef8829b99e4c9f2ae68c78e1b2e68511
     changeNotes: Read the GetConzent consent cookie so consent updates from it, and do not load the banner script inside Shopify pixels (adds a permission to read the page path).
   - sha: a507345d3c2555fbd9218cb488f37ae31800e345
